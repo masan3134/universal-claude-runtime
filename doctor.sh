@@ -12,6 +12,7 @@ command -v jq >/dev/null 2>&1 && ok 'jq / jq mevcut' || blocked 'jq is required 
 ucr_require_config
 ok 'provider config / provider yapılandırması'
 command -v tmux >/dev/null 2>&1 && ok 'tmux installed / tmux kurulu' || blocked 'tmux missing / tmux eksik'
+[[ -x "${UCR_CLAUDE_BINARY:-$ROOT/claude/claude-code}" ]] && ok 'Claude Code binary installed / Claude Code binary kurulu' || blocked 'Claude Code binary missing / Claude Code binary eksik'
 
 for profile in $(jq -r '.profiles | keys[]' "$UCR_PROVIDER_CONFIG"); do
   ucr_validate_profile "$profile"
