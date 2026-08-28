@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "ucr.claude-cli.v1",
+  "version": "2.1.226",
+  "releaseRoot": "https://downloads.claude.ai/claude-code-releases",
+  "platform": "linux-x64",
+  "binaryName": "claude-code"
+}
