@@ -1,50 +1,75 @@
 # Architecture / Mimari
 
-## Türkçe
+## Overview / Genel bakış
 
-Universal Claude Runtime, Claude Code CLI'nin kendisini fork'lamaz veya değiştirmez. Runtime, seçilen provider profiline göre kontrollü bir process environment oluşturur ve native Claude binary'yi çalıştırır.
+Universal Claude Runtime does not fork or modify Claude Code. It selects a validated profile, builds provider-specific environment variables, and execs the pinned native Claude Code binary. tmux is an optional session wrapper, not a routing layer.
 
-User command
-  -> command shim
-  -> runtime core
-  -> profile loader
-  -> provider adapter
-  -> environment builder
-  -> Claude Code CLI
-  -> optional tmux session
+Universal Claude Runtime, Claude Code'u fork'lamaz veya değiştirmez. Doğrulanan profili seçer, provider'a özel environment değişkenlerini üretir ve sabitlenmiş native Claude Code binary'sini çalıştırır. tmux opsiyonel oturum katmanıdır; routing yapmaz.
 
-Katmanlar:
+    User command
+      -> launcher shim
+      -> profile loader
+      -> provider adapter
+      -> Claude Code process
+      -> provider endpoint
 
-1. Command layer: claude-muse, claude-deepseek-flash, claude-deepseek-pro, claude-runtime ve claude-doctor komutlarını sağlar.
-2. Runtime core: config, profile doğrulama, provider seçimi, process lifecycle ve exit code yönetir.
-3. Provider adapters: endpoint, authentication, model, capability, health check ve pricing mantığını izole eder.
-4. Claude integration: Claude CLI sürüm pinleme, indirme manifesti, checksum, atomic activation ve rollback.
-5. Session layer: tmux kalıcı oturum sağlar; provider routing yapmaz.
-6. Security layer: secret loader, non-root, environment allowlist, redaction ve fail-close kontrolleri.
+When UCR_TMUX_ENABLED=true, the Claude Code process runs inside a profile-specific tmux session.
 
-Her provider şu alanları ilan eder: id, display_name, base_url, auth_env, model, aliases, health_check, capabilities ve pricing_reference.
+## Components / Bileşenler
 
-## English
+| Component | Responsibility / Sorumluluk |
+|---|---|
+| bin/claude-runtime | CLI argument/profile selection and process launch |
+| config/providers.json | Profile, model, endpoint, auth mapping, tmux session |
+| runtime/provider-loader.sh | Schema and profile validation |
+| providers/*/adapter.sh | Provider-specific env mapping and auth isolation |
+| runtime/secret-loader.sh | User secret loading and mode 600 validation |
+| runtime/claude-installer.sh | Pinned download, manifest/size/checksum verification |
+| runtime/tmux-installer.sh | tmux detection and package-manager installation |
+| doctor.sh | Local dependency/config/credential diagnostics |
+| install/upgrade/uninstall | Host lifecycle operations |
 
-Universal Claude Runtime does not fork or modify Claude Code CLI. The runtime builds a controlled process environment for the selected provider profile and starts the native Claude binary.
+## Runtime sequence / Çalışma sırası
 
-Layers:
+1. The launcher sets or receives a profile.
+2. The loader validates the providers.v1 document and requested profile.
+3. The adapter requires the matching credential.
+4. The adapter exports the configured base URL and model aliases, then unsets conflicting auth variables.
+5. The runtime starts Claude Code directly or attaches/creates the configured tmux session.
+6. An unknown profile, provider, missing credential, missing binary, or missing tmux dependency fails closed with status 78.
 
-1. Command layer: stable user-facing commands.
-2. Runtime core: configuration, profile validation, provider selection, lifecycle, and exit codes.
-3. Provider adapters: isolated endpoint, authentication, model, capability, health, and pricing logic.
-4. Claude integration: version pinning, manifest verification, checksum validation, atomic activation, and rollback.
-5. Session layer: tmux persistence only; it does not perform provider routing.
-6. Security layer: secret loading, non-root execution, environment allowlists, redaction, and fail-closed checks.
+1. Launcher profili seçer.
+2. Loader providers.v1 dokümanını ve profili doğrular.
+3. Adapter ilgili credential'ı zorunlu tutar.
+4. Adapter base URL ve model alias'larını export eder, çakışan auth değişkenlerini unset eder.
+5. Runtime Claude Code'u doğrudan veya profile özel tmux oturumunda başlatır.
+6. Bilinmeyen profil/provider, eksik credential/binary/tmux durumunda sistem 78 ile fail-close olur.
 
-Each provider declares: id, display_name, base_url, auth_env, model, aliases, health_check, capabilities, and pricing_reference.
+## Provider contract / Provider sözleşmesi
 
-## Non-goals
+Each profile currently declares:
 
-- No remote VPS control
-- No API key proxy service
+| Field | Meaning |
+|---|---|
+| provider | Adapter identifier |
+| model | Provider model passed to Claude Code |
+| baseUrl | Anthropic-compatible endpoint recorded in config |
+| authEnv | Source credential name |
+| claudeAuthEnv | Claude-facing auth variable |
+| tmuxSession | Stable profile-specific session name |
+
+Endpoint values are also enforced by the current adapters. Health, capabilities, and pricing are documentation/operational concerns and are not fields in the v1 profile schema.
+
+## Boundaries / Sınırlar
+
+- No remote VPS administration
+- No API-key proxy or hosted control plane
 - No modification of Claude Code internals
-- No provider-specific logic in the core runtime
-- No secrets committed to Git
 - No silent provider fallback
-- No production PASS based only on mocks
+- No automated provider inference health check
+- No claim that provider compatibility or pricing is permanent
+- No secrets in repository configuration
+
+## Extension rule / Genişletme kuralı
+
+A new provider requires a profile, an isolated adapter, contract tests, bilingual provider/operations documentation, security review, and an opt-in live smoke plan. Core runtime code must not receive provider secrets or provider-specific branching beyond adapter selection.
