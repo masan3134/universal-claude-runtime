@@ -1,0 +1,31 @@
+name: Feature request / Özellik isteği
+description: Propose a scoped improvement / Kapsamlı bir iyileştirme önerin
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Problem
+      description: Describe the operator or user problem without including secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior / Önerilen davranış
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals / Kapsam ve hedef dışı
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security, compatibility, and rollback / Güvenlik, uyumluluk ve rollback
+      description: Explain provider, secret, command, upgrade, and documentation impact.
+    validations:
+      required: true
