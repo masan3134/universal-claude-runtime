@@ -5,17 +5,25 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PREFIX="${UCR_PREFIX:-/opt/universal-claude-runtime}"
 BIN_DIR="${UCR_BIN_DIR:-/usr/local/bin}"
 CONFIG_DIR="${UCR_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/universal-claude-runtime}"
+source "$ROOT/runtime/tmux-installer.sh"
+source "$ROOT/runtime/claude-installer.sh"
+source "$ROOT/runtime/tmux-installer.sh"
+source "$ROOT/runtime/claude-installer.sh"
 
 say(){ printf '[UCR][INSTALL] %s\n' "$1"; }
 fail(){ printf '[UCR][BLOCKED] %s\n' "$1" >&2; exit 78; }
 [[ "$(id -u)" -eq 0 ]] || fail 'run installer as root / installer root olarak çalıştırılmalı'
 command -v install >/dev/null 2>&1 || fail 'install command missing'
 command -v jq >/dev/null 2>&1 || fail 'jq is required; install jq first / jq gerekli'
+ucr_install_tmux
 
 install -d -m 0755 "$PREFIX" "$PREFIX/bin" "$BIN_DIR"
 cp -R "$ROOT/config" "$ROOT/providers" "$ROOT/runtime" "$ROOT/bin" "$PREFIX/"
 cp "$ROOT/doctor.sh" "$PREFIX/doctor.sh"
 chmod 0755 "$PREFIX/doctor.sh" "$PREFIX/bin/claude-runtime" "$PREFIX/runtime"/*.sh "$PREFIX/providers"/*/*.sh
+UCR_RUNTIME_CONFIG="$PREFIX/config/runtime.json" UCR_CLAUDE_PREFIX="$PREFIX/claude" ucr_install_claude
+ucr_install_tmux
+ucr_install_claude "$ROOT" "$PREFIX/claude-code"
 
 install -d -m 0700 "$CONFIG_DIR"
 if [[ ! -e "$CONFIG_DIR/secrets.env" ]]; then
@@ -49,5 +57,4 @@ chmod 0755 "$BIN_DIR"/claude-{runtime,muse,deepseek-flash,deepseek-pro,doctor}
 
 say 'runtime files installed / runtime dosyaları kuruldu'
 say 'configure secrets.env mode 600 / secrets.env dosyasını 600 izinle yapılandırın'
-say 'Claude CLI binary installation is a separate verified gate / Claude CLI binary kurulumu ayrı doğrulama kapısıdır'
 printf 'UCR_INSTALL_FOUNDATION_PASS / UCR_INSTALL_FOUNDATION_PASS\n'
