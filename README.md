@@ -127,6 +127,7 @@ tmux is disabled by default. To use persistent sessions:
 - [Architecture](docs/ARCHITECTURE.md)
 - [Operations](docs/OPERATIONS.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [FAQ](docs/FAQ.md)
 - [Release guide](docs/RELEASE.md)
 - [Security](SECURITY.md)
 - [Threat model](docs/THREAT_MODEL.md)
