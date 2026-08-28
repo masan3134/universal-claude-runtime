@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+*.log
+runtime-state/
+secrets/
+var/
+tmp/
+dist/
+coverage/
+node_modules/
+.DS_Store
