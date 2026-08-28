@@ -1,0 +1,63 @@
+name: Bug report / Hata bildirimi
+description: Report a reproducible, non-sensitive defect / Tekrarlanabilir, hassas olmayan hata bildirin
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Never include API keys, secrets.env, SSH credentials, private source code, or unredacted logs.
+        API key, secrets.env, SSH credential, özel kaynak kod veya redact edilmemiş log eklemeyin.
+  - type: input
+    id: commit
+    attributes:
+      label: Version or commit / Sürüm veya commit
+      placeholder: git rev-parse HEAD
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: OS and architecture / OS ve mimari
+      placeholder: Ubuntu 24.04 x86_64
+    validations:
+      required: true
+  - type: dropdown
+    id: profile
+    attributes:
+      label: Profile / Profil
+      options:
+        - muse
+        - deepseek-flash
+        - deepseek-pro
+        - installation or shared runtime / kurulum veya ortak runtime
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction / Tekrar adımları
+      description: Include the exact command and exit status, with secrets redacted.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / Beklenen davranış
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / Gerçek davranış
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety / Güvenlik
+      options:
+        - label: I removed credentials, private infrastructure details, and user data. / Credential, özel altyapı ve kullanıcı verisini çıkardım.
+          required: true
+        - label: This is not a private security vulnerability report. / Bu özel güvenlik açığı bildirimi değildir.
+          required: true
