@@ -7,25 +7,25 @@ Bir görev ancak implementasyon, kapsamlı test ve kanıt ile tamamlanır.
 
 ## Scope / Kapsam
 
-- [ ] Product scope and non-goals finalized / Ürün kapsamı kesinleştirildi
+- [x] Product scope and non-goals finalized / Ürün kapsamı kesinleştirildi
 - [ ] OS compatibility matrix finalized / İşletim sistemi matrisi kesinleştirildi
-- [ ] Runtime naming and command contract finalized / Komut sözleşmesi kesinleştirildi
+- [x] Runtime naming and command contract finalized / Komut sözleşmesi kesinleştirildi
 - [ ] License and third-party notices added / Lisans bildirimi eklendi
 
 ## Runtime Core / Çekirdek
 
-- [ ] Profile schema and strict validation
-- [ ] Provider registry and deterministic selection
+- [x] Profile schema and strict validation
+- [x] Provider registry and deterministic selection
 - [ ] Standard exit codes and error taxonomy
 - [ ] Runtime lifecycle and process cleanup
 - [ ] No silent provider fallback
 
 ## Providers / Sağlayıcılar
 
-- [ ] DeepSeek adapter
-- [ ] Meta Muse adapter
-- [ ] Provider authentication isolation
-- [ ] Model alias coherence
+- [x] DeepSeek adapter
+- [x] Meta Muse adapter
+- [x] Provider authentication isolation
+- [x] Model alias coherence
 - [ ] Real provider health checks
 - [ ] Pricing metadata separated from runtime
 
@@ -47,38 +47,38 @@ Bir görev ancak implementasyon, kapsamlı test ve kanıt ile tamamlanır.
 
 ## Security / Güvenlik
 
-- [ ] Secret loader and mode enforcement
-- [ ] Non-root execution
-- [ ] Environment allowlist
+- [x] Secret loader and mode enforcement
+- [x] Non-root execution
+- [x] Environment allowlist
 - [ ] Log redaction
 - [ ] Provider cross-contamination negative tests
 - [ ] Threat model
 
 ## Installer UX
 
-- [ ] Preflight checks
-- [ ] Interactive and non-interactive modes
-- [ ] Idempotent install
+- [x] Preflight checks
+- [x] Interactive and non-interactive modes
+- [x] Idempotent install
 - [ ] Uninstall
-- [ ] Doctor command
-- [ ] Clear bilingual output
+- [x] Doctor command
+- [x] Clear bilingual output
 
 ## Tests / Testler
 
-- [ ] Shell lint
-- [ ] Unit tests
-- [ ] Contract tests
+- [x] Shell lint
+- [x] Unit tests
+- [x] Contract tests
 - [ ] Installer tests
 - [ ] Security tests
-- [ ] Mock provider tests
+- [x] Mock provider tests
 - [ ] Opt-in live DeepSeek smoke
 - [ ] Opt-in live Meta smoke
 - [ ] No-secret-output test
 
 ## Documentation / Dokümantasyon
 
-- [ ] Installation guide TR/EN
-- [ ] Provider guide TR/EN
+- [x] Installation guide TR/EN
+- [x] Provider guide TR/EN
 - [ ] Troubleshooting TR/EN
 - [ ] Operations runbook TR/EN
 - [ ] Release and rollback guide TR/EN
