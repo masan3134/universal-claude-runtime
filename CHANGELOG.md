@@ -21,13 +21,15 @@ Bu kayıt production dokümantasyon temelini belirtir; GitHub tag veya release a
 
 ### Added / Eklendi
 
-- Bilingual documentation index
+- Bilingual documentation index and FAQ
 - Production installation and operations runbooks
 - Provider contract and pricing policy documentation
 - Troubleshooting guide
 - Evidence-based release guide
 - Security policy and expanded threat model
 - Contributing and support guides
+- Safe GitHub issue and pull request templates
+- Production environment template guidance
 - Supported-scope readiness ledger
 
 ### Changed / Değişti
