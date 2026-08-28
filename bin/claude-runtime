@@ -5,7 +5,8 @@ source "$UCR_ROOT/runtime/provider-loader.sh"
 PROFILE="${UCR_PROFILE:-${CLAUDE_RUNTIME_PROFILE:-}}"
 case "${1:-}" in --profile) PROFILE="${2:-}"; shift 2;; --muse|muse) PROFILE=muse; shift;; --deepseek-flash|deepseek-flash) PROFILE=deepseek-flash; shift;; --deepseek-pro|deepseek-pro) PROFILE=deepseek-pro; shift;; esac
 PROFILE="${PROFILE:-$(ucr_default_profile)}"; ucr_validate_profile "$PROFILE"
-PROVIDER="$(ucr_profile_value "$PROFILE" provider)"; MODEL="$(ucr_profile_value "$PROFILE" model)"; SESSION="$(ucr_profile_value "$PROFILE" tmuxSession)"; REAL_CLAUDE="${UCR_CLAUDE_BINARY:-claude}"
+PROVIDER="$(ucr_profile_value "$PROFILE" provider)"; MODEL="$(ucr_profile_value "$PROFILE" model)"; SESSION="$(ucr_profile_value "$PROFILE" tmuxSession)"; REAL_CLAUDE="${UCR_CLAUDE_BINARY:-$UCR_ROOT/claude/claude-code}"
+[[ -x "$REAL_CLAUDE" ]] || { printf '[UCR][BLOCKED] Claude binary missing / Claude binary eksik\n' >&2; exit 78; }
 case "$PROVIDER" in deepseek) source "$UCR_ROOT/providers/deepseek/adapter.sh"; ucr_deepseek_prepare_env "$MODEL";; meta-muse) source "$UCR_ROOT/providers/meta-muse/adapter.sh"; ucr_meta_muse_prepare_env "$MODEL";; *) printf '[UCR][BLOCKED] unsupported provider: %s\n' "$PROVIDER" >&2; exit 78;; esac
 export UCR_ACTIVE_PROFILE="$PROFILE" UCR_TMUX_SESSION="$SESSION"
 if [[ "${UCR_TMUX_ENABLED:-false}" == true ]]; then command -v tmux >/dev/null 2>&1 || { printf '[UCR][BLOCKED] tmux is required\n' >&2; exit 78; }; exec tmux new-session -A -s "$SESSION" -- "$REAL_CLAUDE" "$@"; fi
