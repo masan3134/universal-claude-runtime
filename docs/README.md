@@ -12,6 +12,7 @@ Bu sayfa Universal Claude Runtime'ın ana dokümantasyon haritasıdır. Kuruluml
 | [Providers](PROVIDERS.md) | Profiles, models, auth mapping, pricing policy / Profil, model, auth mapping, fiyat politikası |
 | [Operations](OPERATIONS.md) | Daily use, upgrade, rollback, uninstall, incidents / Günlük kullanım, güncelleme, rollback, kaldırma, olaylar |
 | [Troubleshooting](TROUBLESHOOTING.md) | Symptoms, diagnosis, safe fixes / Belirti, teşhis, güvenli çözüm |
+| [FAQ](FAQ.md) | Common scope, health, tmux, and cost questions / Sık kapsam, health, tmux ve maliyet soruları |
 | [Support](../SUPPORT.md) | Where and how to ask for help / Destek isteme yöntemi |
 
 ## Maintainers / Maintainer'lar
