@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "ucr.providers.v1",
+  "defaultProfile": "deepseek-flash",
+  "profiles": {
+    "deepseek-flash": {"provider":"deepseek","model":"deepseek-v4-flash","baseUrl":"https://api.deepseek.com/anthropic","authEnv":"DEEPSEEK_API_KEY","claudeAuthEnv":"ANTHROPIC_API_KEY","tmuxSession":"ucr-deepseek-flash"},
+    "deepseek-pro": {"provider":"deepseek","model":"deepseek-v4-pro[1m]","baseUrl":"https://api.deepseek.com/anthropic","authEnv":"DEEPSEEK_API_KEY","claudeAuthEnv":"ANTHROPIC_API_KEY","tmuxSession":"ucr-deepseek-pro"},
+    "muse": {"provider":"meta-muse","model":"muse-spark-1.2-contributor","baseUrl":"https://api.meta.ai","authEnv":"META_MODEL_API_KEY","claudeAuthEnv":"ANTHROPIC_AUTH_TOKEN","tmuxSession":"ucr-muse"}
+  }
+}
