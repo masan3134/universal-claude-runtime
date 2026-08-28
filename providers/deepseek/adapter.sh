@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ucr_deepseek_prepare_env(){ local model="$1"; local token="${DEEPSEEK_API_KEY:-${DEEPSEEK_NEW_API:-}}"; [[ -n "$token" ]] || { printf '[UCR][BLOCKED] DeepSeek credential is missing\n' >&2; return 78; }; export ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic' ANTHROPIC_API_KEY="$token" ANTHROPIC_MODEL="$model" ANTHROPIC_DEFAULT_OPUS_MODEL="$model" ANTHROPIC_DEFAULT_SONNET_MODEL="$model" ANTHROPIC_DEFAULT_HAIKU_MODEL="$model" CLAUDE_CODE_SUBAGENT_MODEL="$model" UCR_ACTIVE_PROVIDER=deepseek UCR_ACTIVE_MODEL="$model"; unset ANTHROPIC_AUTH_TOKEN CLAUDE_CODE_USE_BEDROCK AWS_BEARER_TOKEN_BEDROCK AWS_REGION; }
