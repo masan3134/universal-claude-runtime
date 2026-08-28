@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report / Güvenlik bildirimi
+    url: mailto:info@gaiai.ai
+    about: Do not disclose vulnerabilities or credentials publicly. / Güvenlik açığı veya credential'ı public paylaşmayın.
+  - name: GAIAI
+    url: https://gaiai.ai
+    about: Project information and contact / Proje bilgisi ve iletişim
